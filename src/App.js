@@ -34,8 +34,9 @@ function App() {
               value={link}
               className="w-full border-black border rounded-lg px-2 py-4 focus:outline-none"
               placeholder="Paste Your Url Here"
-              type="text"
+              type="url"
               onChange={(e) => setLink(e.target.value)}
+              required
             />
           </div>
           <div>
