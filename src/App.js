@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FBApp } from "./firebase";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import { Codec } from "./shorturl";
 
 const db = getFirestore(FBApp);
@@ -15,8 +15,8 @@ function App() {
     e.preventDefault();
     const codec = new Codec();
     const srtLink = codec.encode(link).slice(-6);
-    console.log(codec.encode(link));
-    console.log(codec.decode(codec.encode(link)));
+    // console.log(codec.encode(link));
+    // console.log(codec.decode(codec.encode(link)));
 
     try {
       const newDocRef = await addDoc(collection(db, "Links"), {
@@ -25,11 +25,21 @@ function App() {
         timestamp: new Date(),
       });
       setLink("");
-      console.log(newDocRef.id);
+      // console.log(newDocRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-
+    const querySnapshot = await getDocs(collection(db, "Links"));
+    const userlink = "b3KTa3";
+    if (querySnapshot.empty == false) {
+      querySnapshot.forEach((doc) => {
+        // console.log(`${doc.id} => ${doc.data()}`);
+        // console.log(doc.data().Link);
+        if (doc.data().srtLink == userlink) {
+          console.log(doc.data().link);
+        }
+      });
+    }
     // const querySnapshot = await getDocs(collection(db, "Links"));
     // querySnapshot.forEach((doc) => {
     //   console.log(`${doc.id} => ${doc.data()}`);
