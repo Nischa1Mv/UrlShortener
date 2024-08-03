@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { FBApp } from "./firebase";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  getDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { Codec } from "./shorturl";
 
 const db = getFirestore(FBApp);
 
@@ -18,10 +13,15 @@ function App() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    const codec = new Codec();
+    const srtLink = codec.encode(link).slice(-6);
+    console.log(codec.encode(link));
+    console.log(codec.decode(codec.encode(link)));
+
     try {
       const newDocRef = await addDoc(collection(db, "Links"), {
         Link: link,
-        // srtLink: srtLink,
+        srtLink: srtLink,
         timestamp: new Date(),
       });
       setLink("");
@@ -29,6 +29,7 @@ function App() {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+
     // const querySnapshot = await getDocs(collection(db, "Links"));
     // querySnapshot.forEach((doc) => {
     //   console.log(`${doc.id} => ${doc.data()}`);
