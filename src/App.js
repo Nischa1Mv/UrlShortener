@@ -7,8 +7,8 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" component={Home} exact />
-            <Route path="/:srtLink" component={Redirect} />
+            <Route exact path="/" element={<Home />} />
+            <Route path="/:srtlink" element={<Redirect />} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { FBApp } from "./firebase";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { Codec } from "./shorturl";
 const db = getFirestore(FBApp);
 
 function Home() {
   const [link, setLink] = useState("");
-
-  // indb ? <></> : <></>;
+  const [newlink, setNewlink] = useState("");
 
   const handlesubmit = async (e) => {
     e.preventDefault();
     const codec = new Codec();
     const srtLink = codec.encode(link).slice(-6);
+
     // console.log(codec.encode(link));
     // console.log(codec.decode(codec.encode(link)));
 
@@ -23,25 +23,13 @@ function Home() {
         timestamp: new Date(),
       });
       setLink("");
+      setNewlink(srtLink);
+      console.log(srtLink);
+
       // console.log(newDocRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    const querySnapshot = await getDocs(collection(db, "Links"));
-    const userlink = "b3KTa3";
-    if (querySnapshot.empty == false) {
-      querySnapshot.forEach((doc) => {
-        // console.log(`${doc.id} => ${doc.data()}`);
-        // console.log(doc.data().Link);
-        if (doc.data().srtLink == userlink) {
-          console.log(doc.data().link);
-        }
-      });
-    }
-    // const querySnapshot = await getDocs(collection(db, "Links"));
-    // querySnapshot.forEach((doc) => {
-    //   console.log(`${doc.id} => ${doc.data()}`);
-    // });
   };
 
   return (
@@ -70,8 +58,21 @@ function Home() {
               Submit
             </button>
           </div>
+          {newlink ? (
+            <>
+              <div>
+                Shortened Link{" "}
+                <a
+                  href={`http://localhost:3002/${newlink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  http://localhost:3002/{newlink}
+                </a>
+              </div>
+            </>
+          ) : null}
         </form>
-        {/* <div>the link u ahve given{getDoc.db}</div> */}
       </div>
     </>
   );
