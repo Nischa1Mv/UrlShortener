@@ -79,7 +79,7 @@ function Home() {
               <div>
                 Shortened Link{" "}
                 <a
-                  className="text-amber-300"
+                  className="text-amber-600"
                   href={`https://smolurll.vercel.app/${newlink}`}
                   target="_blank"
                   rel="noopener noreferrer"
