@@ -1,10 +1,11 @@
 import { FBApp } from "./firebase";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const db = getFirestore(FBApp);
 function Redirect() {
+  const [oldlink, setOldlink] = useState("");
   const srtLink = useParams().srtlink;
   useEffect(() => {
     const getLink = async () => {
@@ -13,6 +14,7 @@ function Redirect() {
         querySnapshot.forEach((doc) => {
           if (doc.data().srtLink == srtLink) {
             console.log(doc.data().Link);
+            setOldlink(doc.data().Link);
             window.location.href = doc.data().Link;
           }
         });
@@ -21,7 +23,11 @@ function Redirect() {
     getLink();
   }, [srtLink]);
 
-  return <></>;
+  return (
+    <>
+      <div>You are Currently being Redirected to : {oldlink}</div>
+    </>
+  );
 }
 
 export default Redirect;

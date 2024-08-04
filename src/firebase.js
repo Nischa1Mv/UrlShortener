@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
+import "dotenv/config";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDprA_r0em8aEU9E7xSyuRAi-ZwZezxYVU",
+  apiKey: process.env.NOTAPI_KEY,
   authDomain: "urlshortener-9194a.firebaseapp.com",
   projectId: "urlshortener-9194a",
   storageBucket: "urlshortener-9194a.appspot.com",

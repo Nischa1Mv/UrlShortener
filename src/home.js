@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FBApp } from "./firebase";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import { Codec } from "./shorturl";
 const db = getFirestore(FBApp);
 
@@ -10,25 +10,41 @@ function Home() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-    const codec = new Codec();
-    const srtLink = codec.encode(link).slice(-6);
-
-    // console.log(codec.encode(link));
-    // console.log(codec.decode(codec.encode(link)));
-
-    try {
-      const newDocRef = await addDoc(collection(db, "Links"), {
-        Link: link,
-        srtLink: srtLink,
-        timestamp: new Date(),
+    let isfound = false;
+    const querySnapshot = await getDocs(collection(db, "Links"));
+    if (querySnapshot.empty == false) {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().Link == link) {
+          setNewlink(doc.data().srtLink);
+          console.log("found");
+          isfound = true;
+          return;
+        }
       });
-      setLink("");
-      setNewlink(srtLink);
-      console.log(srtLink);
+    }
+    if (!isfound) {
+      console.log("not found");
 
-      // console.log(newDocRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+      const codec = new Codec();
+      const srtLink = codec.encode(link).slice(-6);
+
+      // console.log(codec.encode(link));
+      // console.log(codec.decode(codec.encode(link)));
+
+      try {
+        const newDocRef = await addDoc(collection(db, "Links"), {
+          Link: link,
+          srtLink: srtLink,
+          timestamp: new Date(),
+        });
+        setLink("");
+        setNewlink(srtLink);
+        // console.log(srtLink);
+
+        // console.log(newDocRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
   };
 
@@ -63,11 +79,11 @@ function Home() {
               <div>
                 Shortened Link{" "}
                 <a
-                  href={`http://localhost:3002/${newlink}`}
+                  href={`http://localhost:3001/${newlink}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  http://localhost:3002/{newlink}
+                  http://localhost:3001/{newlink}
                 </a>
               </div>
             </>
