@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import "dotenv/config";
+
 
 const firebaseConfig = {
   apiKey: process.env.NOTAPI_KEY,
