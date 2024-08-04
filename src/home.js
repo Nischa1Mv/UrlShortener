@@ -7,6 +7,7 @@ const db = getFirestore(FBApp);
 function Home() {
   const [link, setLink] = useState("");
   const [newlink, setNewlink] = useState("");
+  const [copied, setcopied] = useState(false);
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -76,16 +77,71 @@ function Home() {
           </div>
           {newlink ? (
             <>
-              <div>
-                Shortened Link{" "}
-                <a
-                  className="text-amber-600"
-                  href={`https://smolurll.vercel.app/${newlink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {" "}
+              <div className="flex gap-2">
+                <div className="mb-2 text-xl font-semi ">Shortened Link : </div>
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  {copied && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "-30px",
+                        left: "0",
+                        backgroundColor: "rgba(128, 128, 128, 0.8)",
+                        padding: "2px",
+                        borderRadius: "3px",
+                      }}
+                    >
+                      Link copied!
+                    </div>
+                  )}
+                  <a
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigator.clipboard
+                        .writeText(`https://smolurll.vercel.app/${newlink}`)
+                        .then(() => {
+                          setcopied(true);
+                          setTimeout(() => {
+                            setcopied(false);
+                          }, 2000);
+                        })
+                        .catch((error) => {
+                          console.error("Failed to copy: ", error);
+                        });
+                    }}
+                    className="text-amber-600 font-bold text-lg"
+                    href={`https://smolurll.vercel.app/${newlink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://smolurll.vercel.app/{newlink}
+                  </a>
+                </div>
+                <svg
+                  cursor={"pointer"}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigator.clipboard
+                      .writeText(`https://smolurll.vercel.app/${newlink}`)
+                      .then(() => {
+                        setcopied(true);
+                        setTimeout(() => {
+                          setcopied(false);
+                        }, 2000);
+                      })
+                      .catch((error) => {
+                        console.error("Failed to copy: ", error);
+                      });
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
                 >
-                  https://smolurll.vercel.app/{newlink}
-                </a>
+                  <path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
+                </svg>
               </div>
             </>
           ) : null}
