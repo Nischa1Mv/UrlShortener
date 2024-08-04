@@ -3,11 +3,11 @@ import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: process.env.NOTAPI_KEY,
-  authDomain: "urlshortener-9194a.firebaseapp.com",
-  projectId: "urlshortener-9194a",
-  storageBucket: "urlshortener-9194a.appspot.com",
-  messagingSenderId: "887232768236",
-  appId: "1:887232768236:web:3ef236f995ed8b2be21dc9",
+  authDomain: "urlshorterner-1ee5b.firebaseapp.com",
+  projectId: "urlshorterner-1ee5b",
+  storageBucket: "urlshorterner-1ee5b.appspot.com",
+  messagingSenderId: "176755879312",
+  appId: "1:176755879312:web:6f2ca74920054f68569715"
 };
 
 export const FBApp = initializeApp(firebaseConfig);
