@@ -9,6 +9,7 @@ function Home() {
   const [newlink, setNewlink] = useState("");
   const [copied, setcopied] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const imageBG="https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png";
   const handlesubmit = async (e) => {
     e.preventDefault();
     let isfound = false;
@@ -51,8 +52,8 @@ function Home() {
 
   return (
     <>
-      <div className="w-screen h-screen  flex lg:pt-0 pt-20 flex-col">
-        <div className="text-3xl lg:text-6xl lg:mt-0 mt-10 font-bold text-center py-6">
+      <div className={`w-screen h-screen flex lg:pt-0 pt-20 flex-col  bg-[url('${imageBG}')]`} >
+        <div className="text-3xl lg:text-6xl lg:mt-0 mt-10 font-bold text-center py-6 text-white " >
           Url Shortener
         </div>
         <form
@@ -62,7 +63,7 @@ function Home() {
           <div className="lg:w-[85%] w-full px-4">
             <input
               value={link}
-              className="w-full border-black border rounded-lg px-2 py-4 focus:outline-none"
+              className="w-full border-black border rounded-lg px-2 py-4 focus:outline-none  font-semibold"
               placeholder="Paste Your Url Here"
               type="url"
               onChange={(e) => setLink(e.target.value)}
@@ -72,7 +73,7 @@ function Home() {
           <div>
             <button
               type="submit"
-              className="border bg-red-300 px-4 py-2 rounded-full hover:bg-red-400 hover:text-white text-xl font-semibold"
+              className=" mt-2 hover:bg-[#4c6b8a] px-4 py-2 rounded-xl bg-[#72a5d3] hover:text-white text-xl font-semibold"
             >
               Submit
             </button>
@@ -81,7 +82,7 @@ function Home() {
             <>
               {" "}
               <div className="flex gap-2 lg:flex-row flex-col  lg:mt-6 mt-4  ">
-                <div className="mb-2 lg:text-xl text-md font-semibold  ">
+                <div className="mb-2 lg:text-xl text-md font-semibold  text-white ">
                   Shortened Link :{" "}
                 </div>
                 <div style={{ position: "relative", display: "inline-block" }}>
@@ -191,7 +192,7 @@ function Home() {
                     height="24px"
                     viewBox="0 -960 960 960"
                     width="24px"
-                    fill="#000000"
+                    fill="#ffff"
                   >
                     <path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
                   </svg>
@@ -199,12 +200,12 @@ function Home() {
                 <div className="relative">
                   {copied && (
                     <div
-                      className="flex lg:hidden text-nowrap text-white w-[80%] justify-center items-center"
+                      className="flex lg:hidden text-nowrap text-white w-[80%] justify-center items-center font-semibold"
                       style={{
                         position: "absolute",
                         top: "0",
                         left: "0",
-                        backgroundColor: "rgba(128, 128, 128, 0.8)",
+                        backgroundColor: "rgba(128, 128, 128, 0.2)",
                         padding: "2px",
                         borderRadius: "3px",
                       }}
